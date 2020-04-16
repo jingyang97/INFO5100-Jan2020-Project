@@ -20,8 +20,6 @@ public abstract class BasicUI extends JFrame {
 
     public abstract void makeItVisible();
 
-//    public void makeItVisible() {
-//        setSize(250, 300);
-//        setVisible(true);
-//    }
+
+
 }

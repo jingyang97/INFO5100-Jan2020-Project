@@ -5,8 +5,10 @@ import java.awt.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 // import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
+import dto.Incentives;
 import persist.IncentivesManagerImpl;
 
 //        import lombok.Data;
@@ -43,7 +45,7 @@ class EditPage extends JFrame {
     private boolean isNewVehicle;
     private String startDate, endDate;
     int rowIndex;
-
+    public Incentives incentives;
     // public int[][] priceRangeArray;
 
     Font botton = new Font("Courier", Font.BOLD, 21);
@@ -52,10 +54,10 @@ class EditPage extends JFrame {
 
     }
 
-    public EditPage(String dealerID,int rowindex,IncentiveMainPage incentiveMainPage) {
+    public EditPage(String dealerID,Incentives incentives) {
         this.dealerID=dealerID;
-        this.rowIndex=rowindex;
-        this.incentiveMainPage=incentiveMainPage;
+        this.incentives=incentives;
+        //his.incentiveMainPage=incentiveMainPage;
         createComponents(dealerID);
         placeComponents();
         addComponents();
@@ -72,8 +74,27 @@ class EditPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
 
-                //incentivesMangerimpl.updateIncentive();
-                System.out.println("dddd");
+
+                incentives.setEndDate(endDateChooser.getDate());
+                ///
+                incentives.setStartDate(startDateChooser.getDate());
+                incentives.setDiscountValue(Integer.parseInt(valueText.getText()));
+                incentives.setTitle(titleText.getText());
+                incentives.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
+                incentives.setDescription((descriptionText.getText()));
+
+                //Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+                //System.out.println(incentivelist.size());
+
+                //incentive.setDealerId(5);
+
+                incentives.setDisclaimer(disclaimerText.getText());
+                //System.out.println(incentives.getIncentiveId());
+                incentivesManagerImpl.updateIncentive2(incentives);
+                IncentiveMainPage incentiveMainPage=new IncentiveMainPage();
+                incentiveMainPage.setVisible(true);
+                incentiveMainPage.refreshTableContents();
+                System.out.println("update");
             }
         });
     }
@@ -193,16 +214,25 @@ class EditPage extends JFrame {
         rightPanel.add(rightTitle);
         rightPanel.add(titleLabel);
         rightPanel.add(titleText);
+        titleText.setText(incentives.getTitle());
         rightPanel.add(valueLabel);
         rightPanel.add(valueText);
+        valueText.setText(String.valueOf(incentives.getDiscountValue()));
         rightPanel.add(descriptionLabel);
         rightPanel.add(descriptionText);
+        descriptionText.setText(incentives.getDescription());
+        disclaimerText.setText(incentives.getDescription());
         rightPanel.add(disclaimerLabel);
         rightPanel.add(disclaimerText);
+        disclaimerText.setText(incentives.getDisclaimer());
         rightPanel.add(dateLabel);
+
         rightPanel.add(slashLabel);
         rightPanel.add(startDateChooser);
+        startDateChooser.setDate(incentives.getStartDate());
+
         rightPanel.add(endDateChooser);
+        endDateChooser.setDate(incentives.getEndDate());
         rightPanel.add(applyButton);
         rightPanel.add(incenitveTypeLabel);
         rightPanel.add(incentiveTypeBox);

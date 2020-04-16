@@ -51,10 +51,33 @@ public class IncentiveMainPage extends JFrame {
         jButton4.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                int rowIndex = jTable1.getSelectedRow();
-                new ui.incentiveui.EditPage("D5",rowIndex,incentiveMainPage);
+                try{
+                    int rowIndex = jTable1.getSelectedRow();
+                    if(rowIndex==-1){
+                        throw new Exception();
+                    }
+                    Incentives incentives=extract(rowIndex);
+
+
+                    new ui.incentiveui.EditPage("D5",incentives);
+                }catch (Exception e1){
+                    JOptionPane.showMessageDialog(null,"plesae select a row");
+                }
+
             }
         });
+    }
+    public Incentives extract(int rowIndex){
+         rowIndex = jTable1.getSelectedRow();
+        int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 4).toString()) ;
+        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        for(Incentives i:incentivelist){
+            if(i.getIncentiveId()==ID){
+                return i;
+            }
+        }
+        return null;
     }
 
     public IncentiveMainPage incentiveMainPage;
@@ -258,9 +281,12 @@ public class IncentiveMainPage extends JFrame {
         IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
         Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
         for(Incentives i:incentivelist){
-            tableModel.addRow(new String[]{i.getTitle(),i.getStartDate().toString(),
-                    i.getEndDate().toString(), String.valueOf(i.getDiscountValue()),
-                    String.valueOf(i.getIncentiveId())});
+            if(!i.getIsDeleted()){
+                tableModel.addRow(new String[]{i.getTitle(),i.getStartDate().toString(),
+                        i.getEndDate().toString(), String.valueOf(i.getDiscountValue()),
+                        String.valueOf(i.getIncentiveId())});
+            }
+
         }
         jTable1.setModel(tableModel);
         //jTable1.setEnabled(false);

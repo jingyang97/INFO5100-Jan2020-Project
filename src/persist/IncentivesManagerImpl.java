@@ -91,14 +91,11 @@ public class IncentivesManagerImpl implements IncentivesManager {
                     + incentives.getIsDeleted() + "'," + "'" + incentives.getFilterList() + "','"
                     + incentives.getVehicleIdList() + "')";
 
-            String sql="insert Incentives\n" +
-                    "  values('zehong test', 'car on sale', 'valid for 15 days', " +
-                    "convert(varchar, getdate(), 1), convert(varchar, DATEADD(d,15, GETDATE()),1), " +
-                    "10, 'Discount', 8,0,null, null)";
+
             if (connection != null) {
                 stmt = connection.createStatement();
                 //stmt.execute(query, stmt.RETURN_GENERATED_KEYS);
-                stmt.executeUpdate(sql);
+                stmt.executeUpdate(query);
                 //rs = stmt.getGeneratedKeys();
                 if (rs != null && rs.next()) {
                     int incentiveId = rs.getInt(1);
@@ -147,6 +144,39 @@ public class IncentivesManagerImpl implements IncentivesManager {
         return false;
     }
 
+
+
+    public void updateIncentive2(Incentives incentives){
+        Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
+        Date endDate = DateToSqlDatetime.JavaEndDateToSqlDate(incentives);
+
+        String sql ="UPDATE Incentives SET Title=incentives.getTitle(), Description=incentives.getDescription()," +
+                "DiscountValue=incentives.getDiscountValue()," +
+                " StartDate=startDate,EndDate=endDate,DiscountType=incentives.getDiscountType()," +
+                "Disclaimer=incentives.getDisclaimer()  WHERE  IncentiveId =incentives.getIncentiveId();";
+        String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
+                "' , Disclaimer='"+incentives.getDisclaimer()+"' , StartDate='"+startDate+"' , EndDate='"+endDate+
+                "' , DiscountValue = "+incentives.getDiscountValue()+" , DiscountType = '"+incentives.getDiscountType()+"'" +
+                " WHERE IncentiveId = "+incentives.getIncentiveId()+" ;";
+
+
+        try {
+
+
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(query);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public boolean updateIncentive(Incentives incentives) {
         String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
