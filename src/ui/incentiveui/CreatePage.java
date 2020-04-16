@@ -87,28 +87,28 @@ public class CreatePage extends JFrame {
     }
     private void performOperationAndTrapException() {
         IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-        Incentives incentive=new Incentives();
-        incentive.setEndDate(endDateChooser.getDate());
-        ///
-        incentive.setStartDate(startDateChooser.getDate());
-        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
-        incentive.setTitle(titleText.getText());
-        incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
-        incentive.setDescription((descriptionText.getText()));
+        Incentives incentives =new Incentives();
+        incentives.setEndDate(endDateChooser.getDate());
+
+        incentives.setStartDate(startDateChooser.getDate());
+        incentives.setDiscountValue(Integer.parseInt(valueText.getText()));
+        incentives.setTitle(titleText.getText());
+        incentives.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
+        incentives.setDescription((descriptionText.getText()));
 
         Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
         System.out.println(incentivelist.size());
 
-        incentive.setDealerId(5);
-        incentive.setFilterList("");
-        incentive.setVehicleIdList("");
-        incentive.setDisclaimer(disclaimerText.getText());
+        incentives.setDealerId(5);
+        incentives.setFilterList("");
+        incentives.setVehicleIdList("");
+        incentives.setDisclaimer(disclaimerText.getText());
 
         //IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
 
 
         try {
-            incentivesManagerImpl.addIncentive2(incentive);
+            incentivesManagerImpl.addIncentive2(incentives);
         } catch (SQLException e) {
             e.printStackTrace();
         }

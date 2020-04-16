@@ -154,10 +154,10 @@ public class IncentivesManagerImpl implements IncentivesManager {
                 "DiscountValue=incentives.getDiscountValue()," +
                 " StartDate=startDate,EndDate=endDate,DiscountType=incentives.getDiscountType()," +
                 "Disclaimer=incentives.getDisclaimer()  WHERE  IncentiveId =incentives.getIncentiveId();";
-        String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
-                "' , Disclaimer='"+incentives.getDisclaimer()+"' , StartDate='"+startDate+"' , EndDate='"+endDate+
-                "' , DiscountValue = "+incentives.getDiscountValue()+" , DiscountType = '"+incentives.getDiscountType()+"'" +
-                " WHERE IncentiveId = "+incentives.getIncentiveId()+" ;";
+        String query = "UPDATE Incentives SET Title='"+ incentives.getTitle()+"' , Description ='"+ incentives.getDescription()+
+                "' , Disclaimer='"+ incentives.getDisclaimer()+"' , StartDate='"+startDate+"' , EndDate='"+endDate+
+                "' , DiscountValue = "+ incentives.getDiscountValue()+" , DiscountType = '"+ incentives.getDiscountType()+"'" +
+                " WHERE IncentiveId = "+ incentives.getIncentiveId()+" ;";
 
 
         try {
@@ -179,10 +179,10 @@ public class IncentivesManagerImpl implements IncentivesManager {
     }
     @Override
     public boolean updateIncentive(Incentives incentives) {
-        String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
-                "' , Disclaimer='"+incentives.getDisclaimer()+"' , StartDate='"+incentives.getStartDate()+"' , EndDate='"+incentives.getEndDate()+
-                "' , DiscountValue = "+incentives.getDiscountValue()+" , DiscountType = '"+incentives.getDiscountType()+"'" +
-                " WHERE IncentiveId = "+incentives.getIncentiveId()+" ;";
+        String query = "UPDATE Incentives SET Title='"+ incentives.getTitle()+"' , Description ='"+ incentives.getDescription()+
+                "' , Disclaimer='"+ incentives.getDisclaimer()+"' , StartDate='"+ incentives.getStartDate()+"' , EndDate='"+ incentives.getEndDate()+
+                "' , DiscountValue = "+ incentives.getDiscountValue()+" , DiscountType = '"+ incentives.getDiscountType()+"'" +
+                " WHERE IncentiveId = "+ incentives.getIncentiveId()+" ;";
 
         /*Call 'executeQuery' method to run the query*/
         ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "UPDATE");

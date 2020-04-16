@@ -56,10 +56,10 @@ public class IncentiveMainPage extends JFrame {
                     if(rowIndex==-1){
                         throw new Exception();
                     }
-                    Incentives incentives=extract(rowIndex);
+                    Incentives incentives =extract(rowIndex);
 
 
-                    new ui.incentiveui.EditPage("D5",incentives);
+                    new ui.incentiveui.EditPage("D5", incentives);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }

@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 // import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 import dto.Incentives;
@@ -54,9 +53,9 @@ class EditPage extends JFrame {
 
     }
 
-    public EditPage(String dealerID,Incentives incentives) {
+    public EditPage(String dealerID, Incentives incentives) {
         this.dealerID=dealerID;
-        this.incentives=incentives;
+        this.incentives = incentives;
         //his.incentiveMainPage=incentiveMainPage;
         createComponents(dealerID);
         placeComponents();
