@@ -101,6 +101,8 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		}catch (SQLException e){
 			e.printStackTrace();
 		}
+		statement.close();
+		connection.close();
 
 	}
 

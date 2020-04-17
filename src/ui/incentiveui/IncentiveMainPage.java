@@ -45,6 +45,7 @@ public class IncentiveMainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 new ui.incentiveui.CreatePage(dealerID);
+
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -79,7 +80,7 @@ public class IncentiveMainPage extends JFrame {
         return null;
     }
 
-    public IncentiveMainPage incentiveMainPage;
+
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -280,7 +281,7 @@ public class IncentiveMainPage extends JFrame {
     }
 
 
-    private void refreshTableContents(){
+    public void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();
         tableModel.addColumn("Incentive ID");

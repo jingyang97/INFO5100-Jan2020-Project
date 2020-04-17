@@ -45,7 +45,7 @@ class EditPage extends JFrame {
     private boolean isNewVehicle;
     private String startDate, endDate;
     int rowIndex;
-    private static int dealerID;
+    private  int dealerID;
     public Incentives incentives;
     // public int[][] priceRangeArray;
 
@@ -65,7 +65,7 @@ class EditPage extends JFrame {
         addListeners();
         // makeVisible();
         jframe.setVisible(true);
-
+        System.out.println(incentives.getFilterList());
     }
 
     private void addListeners() {
@@ -84,6 +84,7 @@ class EditPage extends JFrame {
                 incentivesManagerImpl.updateIncentive2(incentives);
                 IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
                 incentiveMainPage.setVisible(true);
+                incentiveMainPage.refreshTableContents();
 
             }
         });

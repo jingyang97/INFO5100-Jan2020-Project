@@ -115,13 +115,14 @@ public class CreatePage extends JFrame {
                 incentives.setDisclaimer(disclaimerText.getText());
                 incentives.setStartDate(startDateChooser.getDate());
                 incentives.setEndDate(endDateChooser.getDate());
-                incentives.setDealerId(5);
+                incentives.setDealerId(dealerID);
                 incentives.setIsDeleted(false);
                 incentives.setFilterList(null);
                 incentives.setVehicleIdList(null);
 
                 IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
                 IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                incentiveMainPage.refreshTableContents();
                 incentiveMainPage.setVisible(true);
                 try {
                     incentivesManagerImpl.addIncentive2(incentives);
