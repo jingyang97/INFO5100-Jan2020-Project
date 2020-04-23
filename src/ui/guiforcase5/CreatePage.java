@@ -13,10 +13,11 @@ import javax.swing.border.Border;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.text.SimpleDateFormat;
 import com.toedter.calendar.JDateChooser;
 
 //        import lombok.Data;
@@ -24,7 +25,7 @@ import com.toedter.calendar.JDateChooser;
 public class CreatePage {
     private JFrame jframe;
     private JPanel mainPanel, rightPanel;
-    private JButton createButton;
+    private JButton createButton,applyButton;
 
     private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, makeLabel, welcomeLabel, cautionLabel;
     private JTextField vehicleIDText, minimumInt, maximumInt;
@@ -45,6 +46,10 @@ public class CreatePage {
     private static int[] vehicleIDList;
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
+    Incentives incentive=new Incentives();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    JFrame parent = new JFrame();
+    IncentivesManagerImpl impl = new IncentivesManagerImpl();
 
     protected CreatePage(int dealerID) {
         setDealerID(dealerID);
@@ -52,6 +57,7 @@ public class CreatePage {
         placeComponents();
         addComponents();
         addListeners2();
+        addListeners();
         jframe.setLocation(30,370);
         jframe.setVisible(true);
 
@@ -61,59 +67,42 @@ public class CreatePage {
         this.dealerID = dealerID;
     }
 
-//    private void addListeners() {
-//        createButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                Incentives incentive=new Incentives();
-//                try {
-//                    vehicleIDList = setSearchFilter();
-//                } catch (NumberFormatException enf) {
-//                    JOptionPane.showMessageDialog(jframe, "Please Enter Price Range in Integers.");
-//                } catch (IllegalArgumentException iae) {
-//                    JOptionPane.showMessageDialog(jframe, "Price Range Is Invalid.");
-//                }
-//
-//
-//
-//                if (vehicleIDList == null || vehicleIDList.length == 0) {
-//                    System.out.println(0);
-//                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
-//                } else {
-//                    System.out.println(vehicleIDList.length);
-//                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
-//                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
-//
-//
-//                    try {
-//                        setIncentiveApplyData(incentive);
-//
-//                        incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
-//                    }
-//                    catch (NumberFormatException eN) {
-//                        JOptionPane.showMessageDialog(jframe, "Please Enter Value in Integer");
-//                    } catch (NullPointerException eEmpty) {
-//                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
-//                    }
-//                    catch (SQLException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                    finally {
-////                    CreatePage.dispose();
-//                        incentiveMainPage.setVisible(true);
-//
-//                        incentiveMainPage.refreshTableContents();
-//                    }
-//                }
-//
-//            }
-//        });
-//    }
+    private void addListeners() {
+        applyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    Date startDate = DateToSqlDatetime.JavaDateToSqlDate(startDateChooser.getDate());
+                    Date endDate = DateToSqlDatetime.JavaDateToSqlDate(endDateChooser.getDate());
+                    incentive.setTitle(titleText.getText());
+                    incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
+                    incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
+                    incentive.setDescription(descriptionText.getText());
+                    incentive.setDisclaimer(disclaimerText.getText());
+                    incentive.setStartDate(startDate);
+                    incentive.setEndDate(endDate);
+                    incentive.setDealerId(dealerID);
+                    impl.addIncentive(incentive);
+
+                    JOptionPane.showMessageDialog(parent, "Incentive Added Successfully");
+                } catch (NullPointerException eNull) {
+                    JOptionPane.showMessageDialog(parent, "Please enter All The Details.");
+                }
+                catch (NumberFormatException enf) {
+                    JOptionPane.showMessageDialog(jframe, "Please Enter Value Or Price in Integer");
+                } finally {
+                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                    incentiveMainPage.setVisible(true);
+                    //incentiveMainPage.refreshTableContents();
+                }
+            }
+        });
+    }
 
 
     private void addListeners2() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Incentives incentive=new Incentives();
                 try {
                     vehicleIDList = setSearchFilter();
                     System.out.println(vehicleIDList.length);
@@ -351,7 +340,8 @@ public class CreatePage {
         startDateChooser = new JDateChooser();
         endDateChooser = new JDateChooser();
 
-
+        applyButton = new JButton("Apply");
+        applyButton.setFont(botton);
         incentiveTypeLabel = new JLabel("IncentiveType");
         incentiveTypeLabel.setFont(rightCommonFont);
         incentiveTypeBox = new JComboBox();
@@ -402,7 +392,7 @@ public class CreatePage {
         rightPanel.add(slashLabel);
         rightPanel.add(startDateChooser);
         rightPanel.add(endDateChooser);
-
+        rightPanel.add(applyButton);
         rightPanel.add(incentiveTypeLabel);
         rightPanel.add(incentiveTypeBox);
         ButtonGroup group = new ButtonGroup();
@@ -464,7 +454,7 @@ public class CreatePage {
         slashLabel.setBounds(340, 450, 10, 40);
         startDateChooser.setBounds(210,450, 125,40);
         endDateChooser.setBounds(355, 450, 125,40);
-
+        applyButton.setBounds(150, 500, 100, 40);
 
 
     }
